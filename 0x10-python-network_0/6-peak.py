@@ -1,16 +1,32 @@
 #!/usr/bin/python3
-"""contains the function find_peak"""
+"""6-peak module"""
 
 
 def find_peak(list_of_integers):
-    """finds a peak in a list of unsorted integers"""
-    li = list_of_integers
-    l = len(li)
-    if l == 0:
-        return
-    m = l // 2
-    if (m == l - 1 or li[m] >= li[m + 1]) and (m == 0 or li[m] >= li[m - 1]):
-        return li[m]
-    if m != l - 1 and li[m + 1] > li[m]:
-        return find_peak(li[m + 1:])
-    return find_peak(li[:m])
+    """files a peak in a list of unsorted integers
+
+    Args:
+        list_of_integers (list): list of integers
+    """
+    if len(list_of_integers) == 0:
+        return None
+
+    end = len(list_of_integers) - 1
+    if list_of_integers[0] > list_of_integers[1]:
+        return list_of_integers[0]
+    elif list_of_integers[end] > list_of_integers[end - 1]:
+        return list_of_integers[end]
+
+    mid = end // 2
+    if (
+        list_of_integers[mid] > list_of_integers[mid - 1]
+        and list_of_integers[mid] > list_of_integers[mid + 1]
+    ):
+        return list_of_integers[mid]
+
+    if list_of_integers[mid] < list_of_integers[mid - 1]:
+        return find_peak(list_of_integers[:mid+1])
+    elif list_of_integers[mid] < list_of_integers[mid + 1]:
+        return find_peak(list_of_integers[mid:])
+    else:
+        return list_of_integers[mid]
